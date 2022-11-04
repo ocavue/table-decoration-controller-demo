@@ -3,7 +3,7 @@ import React, {
   ReactNode,
   RefCallback,
   useCallback,
-  useState
+  useState,
 } from "react";
 import { FindProsemirrorNodeResult, NodeWithPosition } from "remirror";
 import {
@@ -18,7 +18,7 @@ import {
   selectedColumnPositioner,
   selectedRowPositioner,
   TableExtension,
-  tablePositioner
+  tablePositioner,
 } from "remirror/extensions";
 import {
   CommandMenuItem,
@@ -33,18 +33,21 @@ import {
   useMultiPositioner,
   UseMultiPositionerReturn,
   usePositioner,
-  useRemirror
+  useRemirror,
 } from "@remirror/react";
 import { AllStyledComponent } from "@remirror/styles/emotion";
 import { css } from "@emotion/css";
+import { TableSelectorExtension } from "./table-selector-extension";
 
 import {
   AddButton,
   AddButtonProps,
   AddOverlay,
   DeleteButton,
-  DeleteOverlay
+  DeleteOverlay,
 } from "./Components";
+
+import "./table-selector.css";
 
 const styles = css`
   padding: var(--rmr-space-4) !important;
@@ -77,7 +80,7 @@ const CommandMenu = () => {
             commands.createTable({
               rowsCount: 4,
               columnsCount: 4,
-              withHeaderRow: false
+              withHeaderRow: false,
             })
           }
         >
@@ -90,7 +93,7 @@ const CommandMenu = () => {
             commands.createTable({
               rowsCount: 4,
               columnsCount: 4,
-              withHeaderRow: true
+              withHeaderRow: true,
             })
           }
         >
@@ -142,7 +145,7 @@ const SelectAll: React.FC = () => {
       `}
       style={{
         left: x - 20,
-        top: y - 20
+        top: y - 20,
       }}
     >
       ⇲
@@ -188,7 +191,7 @@ const ControllerCell: React.FC<ControllerCellProps> = (props) => {
         left: axis !== "column" ? x - 9.5 : x + 1,
         top: axis !== "row" ? y - 9.5 : y + 1,
         width: axis !== "column" ? 10 : width,
-        height: axis !== "row" ? 10 : height
+        height: axis !== "row" ? 10 : height,
       }}
       ref={innerRef}
     >
@@ -218,13 +221,15 @@ const ButtonWithHoverChild: React.FC<AddColumnRowProps> = ({
     []
   );
 
-  const handleMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    setIsHovered(true);
-  }, []);
+  const handleMouseEnter: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      setIsHovered(true);
+    }, []);
 
-  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+  const handleMouseLeave: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      setIsHovered(false);
+    }, []);
 
   const handleClick: MouseEventHandler<HTMLDivElement> = useCallback(
     (e) => {
@@ -249,20 +254,24 @@ const ButtonWithHoverChild: React.FC<AddColumnRowProps> = ({
 };
 
 const AddColumnButtons: React.FC = () => {
-  const { ref, x, y, width, height, active, data } = usePositioner<
-    ActiveCellColumnPositionerData
-  >(activeCellColumnPositioner, []);
+  const { ref, x, y, width, height, active, data } =
+    usePositioner<ActiveCellColumnPositionerData>(
+      activeCellColumnPositioner,
+      []
+    );
   const { pos } = data;
 
   const chain = useChainedCommands();
 
-  const handleClickBefore: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    chain.selectText(pos).addTableColumnBefore().run();
-  }, [chain, pos]);
+  const handleClickBefore: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      chain.selectText(pos).addTableColumnBefore().run();
+    }, [chain, pos]);
 
-  const handleClickAfter: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    chain.selectText(pos).addTableColumnAfter().run();
-  }, [chain, pos]);
+  const handleClickAfter: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      chain.selectText(pos).addTableColumnAfter().run();
+    }, [chain, pos]);
 
   if (!active) {
     return null;
@@ -277,7 +286,7 @@ const AddColumnButtons: React.FC = () => {
         style={{
           position: "absolute",
           left: x - 4,
-          top: y - 24
+          top: y - 24,
         }}
       >
         <AddOverlay
@@ -285,7 +294,7 @@ const AddColumnButtons: React.FC = () => {
           style={{
             position: "absolute",
             left: x,
-            top: y - 10
+            top: y - 10,
           }}
         />
       </ButtonWithHoverChild>
@@ -295,7 +304,7 @@ const AddColumnButtons: React.FC = () => {
         style={{
           position: "absolute",
           left: x + width - 4,
-          top: y - 24
+          top: y - 24,
         }}
       >
         <AddOverlay
@@ -303,7 +312,7 @@ const AddColumnButtons: React.FC = () => {
           style={{
             position: "absolute",
             left: x + width,
-            top: y - 10
+            top: y - 10,
           }}
         >
           &nbsp;
@@ -314,20 +323,21 @@ const AddColumnButtons: React.FC = () => {
 };
 
 const AddRowButtons: React.FC = () => {
-  const { ref, x, y, width, height, active, data } = usePositioner<
-    ActiveCellRowPositionerData
-  >(activeCellRowPositioner, []);
+  const { ref, x, y, width, height, active, data } =
+    usePositioner<ActiveCellRowPositionerData>(activeCellRowPositioner, []);
   const { pos } = data;
 
   const chain = useChainedCommands();
 
-  const handleClickBefore: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    chain.selectText(pos).addTableRowBefore().run();
-  }, [chain, pos]);
+  const handleClickBefore: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      chain.selectText(pos).addTableRowBefore().run();
+    }, [chain, pos]);
 
-  const handleClickAfter: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    chain.selectText(pos).addTableRowAfter().run();
-  }, [chain, pos]);
+  const handleClickAfter: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      chain.selectText(pos).addTableRowAfter().run();
+    }, [chain, pos]);
 
   if (!active) {
     return null;
@@ -342,7 +352,7 @@ const AddRowButtons: React.FC = () => {
         style={{
           position: "absolute",
           left: x - 24,
-          top: y - 4
+          top: y - 4,
         }}
       >
         <AddOverlay
@@ -350,7 +360,7 @@ const AddRowButtons: React.FC = () => {
           style={{
             position: "absolute",
             left: x - 10,
-            top: y
+            top: y,
           }}
         />
       </ButtonWithHoverChild>
@@ -360,7 +370,7 @@ const AddRowButtons: React.FC = () => {
         style={{
           position: "absolute",
           left: x - 24,
-          top: y + height - 4
+          top: y + height - 4,
         }}
       >
         <AddOverlay
@@ -368,7 +378,7 @@ const AddRowButtons: React.FC = () => {
           style={{
             position: "absolute",
             left: x - 10,
-            top: y + height
+            top: y + height,
           }}
         >
           &nbsp;
@@ -402,7 +412,7 @@ const DeleteColumnButton: React.FC = () => {
       style={{
         position: "absolute",
         left: x - 4 + width / 2,
-        top: y - 24
+        top: y - 24,
       }}
     >
       <DeleteOverlay
@@ -411,7 +421,7 @@ const DeleteColumnButton: React.FC = () => {
         style={{
           position: "absolute",
           left: x,
-          top: y - 10
+          top: y - 10,
         }}
       />
     </ButtonWithHoverChild>
@@ -443,7 +453,7 @@ const DeleteRowButton: React.FC = () => {
         style={{
           position: "absolute",
           left: x - 24,
-          top: y - 4 + height / 2
+          top: y - 4 + height / 2,
         }}
       >
         <DeleteOverlay
@@ -452,7 +462,7 @@ const DeleteRowButton: React.FC = () => {
           style={{
             position: "absolute",
             left: x - 10,
-            top: y
+            top: y,
           }}
         />
       </ButtonWithHoverChild>
@@ -461,14 +471,11 @@ const DeleteRowButton: React.FC = () => {
 };
 
 const Dropdown = () => {
-  const {
-    mergeTableCells,
-    setTableCellBackground,
-    splitTableCell
-  } = useCommands();
+  const { mergeTableCells, setTableCellBackground, splitTableCell } =
+    useCommands();
   return (
     <Toolbar>
-      <DropdownButton aria-label="Table Menu" size="tiny">
+      <DropdownButton aria-label="Table Menu">
         <CommandMenuItem
           commandName="setTableCellBackground"
           onSelect={() => setTableCellBackground("teal")}
@@ -530,7 +537,7 @@ const ActiveCellDropdown: React.FC = () => {
       `}
       style={{
         top: y + 4,
-        left: x + width - 24
+        left: x + width - 24,
       }}
     >
       <Dropdown />
@@ -552,13 +559,15 @@ const DeleteTableButton: React.FC = () => {
     []
   );
 
-  const handleMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    setIsHovered(true);
-  }, []);
+  const handleMouseEnter: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      setIsHovered(true);
+    }, []);
 
-  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+  const handleMouseLeave: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      setIsHovered(false);
+    }, []);
 
   const { deleteTable } = useCommands();
 
@@ -594,7 +603,7 @@ const DeleteTableButton: React.FC = () => {
         `}
         style={{
           top: y + height + 10,
-          left: x + width / 2
+          left: x + width / 2,
         }}
       >
         🗑
@@ -606,7 +615,7 @@ const DeleteTableButton: React.FC = () => {
           style={{
             position: "absolute",
             left: x - 10,
-            top: y - 10
+            top: y - 10,
           }}
         />
       )}
@@ -629,7 +638,7 @@ const Positioners = () => {
       <>
         <ActiveCellDropdown />
         <SelectAll />
-        {controllerColumns.map(({ key, ref, data: { pos }, ...rest }) => (
+        {/* {controllerColumns.map(({ key, ref, data: { pos }, ...rest }) => (
           <ControllerCell
             key={key}
             axis="column"
@@ -646,7 +655,7 @@ const Positioners = () => {
             innerRef={ref}
             {...rest}
           />
-        ))}
+        ))} */}
         <AddColumnButtons />
         <AddRowButtons />
         <DeleteColumnButton />
@@ -659,7 +668,11 @@ const Positioners = () => {
 
 const Basic = (): JSX.Element => {
   const { manager, state } = useRemirror({
-    extensions: () => [new TableExtension(), new HeadingExtension({})]
+    extensions: () => [
+      new TableExtension(),
+      new HeadingExtension({}),
+      new TableSelectorExtension(),
+    ],
   });
 
   return (

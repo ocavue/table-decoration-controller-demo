@@ -4,6 +4,7 @@ specifiers:
   '@emotion/css': ^11.10.5
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
+  '@remirror/core': ^2.0.7
   '@remirror/pm': ^2.0.1
   '@remirror/react': ^2.0.16
   '@remirror/styles': ^2.0.1
@@ -20,6 +21,7 @@ dependencies:
   '@emotion/css': 11.10.5
   '@emotion/react': 11.10.4_bbvjflvjoibwhtpmedigb26h6y
   '@emotion/styled': 11.10.4_xp2lnihcupn2fz4x32xcp6go4e
+  '@remirror/core': 2.0.7_@remirror+pm@2.0.1
   '@remirror/pm': 2.0.1
   '@remirror/react': 2.0.16_m64vi6gmux2pqz7srikptcx7bu
   '@remirror/styles': 2.0.1_osf362rf5j7plelgt4hwodq5kq
