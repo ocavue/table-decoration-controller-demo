@@ -99,6 +99,19 @@ const CommandMenu = () => {
         >
           create a 4*4 table with headers
         </button>
+
+        <button
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() =>
+            commands.createTable({
+              rowsCount: 200,
+              columnsCount: 5,
+              withHeaderRow: true,
+            })
+          }
+        >
+          create a 8*1000 table with headers
+        </button>
       </p>
     </div>
   );
