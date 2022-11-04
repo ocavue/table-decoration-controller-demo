@@ -3,7 +3,7 @@ import { Transaction } from "@remirror/pm/state"
 import { CellSelection, TableMap } from "@remirror/pm/tables"
 
 export function selectRow(tr: Transaction, pos: number): boolean {
-    const cell = findParentNodeOfType({ selection: tr.doc.resolve(pos), types: "tableCell" })
+    const cell = findParentNodeOfType({ selection: tr.doc.resolve(pos), types: ["tableCell", "tableHeaderCell"] })
 
     if (!cell) {
         return false
@@ -14,7 +14,7 @@ export function selectRow(tr: Transaction, pos: number): boolean {
 }
 
 export function selectColumn(tr: Transaction, pos: number): boolean {
-    const cell = findParentNodeOfType({ selection: tr.doc.resolve(pos), types: "tableCell" })
+    const cell = findParentNodeOfType({ selection: tr.doc.resolve(pos), types: ["tableCell", "tableHeaderCell"] })
 
     if (!cell) {
         return false
